@@ -857,20 +857,20 @@ class Game:
 							a = 5
 						elif event.mod == KMOD_ALT or event.mod == KMOD_LALT or event.mod == KMOD_RALT \
 							    or event.mod == 4352 or event.mod == 20480 or event.mod == 4608:
-							p = 0.2
+							p = 0.1
 							a = 0.05
 						else:
 							p = 10
 							a = 2
 
 						if not self.round_over:
-							if event.key == K_UP:
+							if event.key == K_UP or event.key == K_w or event.key == K_k:
 								self.change_power(p)
-							elif event.key == K_DOWN:
+							elif event.key == K_DOWN or event.key == K_s or event.key == K_j:
 								self.change_power(-p)
-							elif event.key == K_LEFT:
+							elif event.key == K_LEFT or event.key == K_a or event.key == K_h:
 								self.change_angle(-a)
-							elif event.key == K_RIGHT:
+							elif event.key == K_RIGHT or event.key == K_d or event.key == K_l:
 								self.change_angle(a)
 
 						if event.key == K_RETURN or event.key == K_SPACE:
@@ -879,6 +879,9 @@ class Game:
 										  self.players[self.player].get_power(), True)) == False:
 									self.menu = self.net_error_menu
 									self.net.close()
+							elif self.firing: # This introduces an abort button that was not originally part of the design
+								self.end_shot()
+								break
 							self.fire()
 						else:
 							if self.net_play():
